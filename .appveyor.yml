@@ -6,11 +6,15 @@ branches:
 init:
   - ps: $PSVersionTable
 
-before_build:
-  - copy .kitchen.appveyor.yml .kitchen.local.yml
-
 build_script:
   - ps: ./bootstrap.ps1
 
 test_script:
-  - chef exec inspec exec test/integration/**/*.rb
+  - ps: Write-Host $env:PATH
+  - ps: "[Environment]::GetEnvironmentVariable('Path', [System.EnvironmentVariableTarget]::Machine)"
+  - ps: "[Environment]::GetEnvironmentVariable('Path', [System.EnvironmentVariableTarget]::User)"
+  - ps: ls c:\opscode
+  - ps: ls c:\opscode\chefdk
+  - ps: get-command chef
+  - ps: (get-command chef).definition
+  - ps: chef exec inspec exec test/integration/**/*.rb
