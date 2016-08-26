@@ -1,0 +1,9 @@
+os:
+  - linux
+  - osx
+
+before_install:
+  - cp .kitchen.{travis,local}.yml
+
+script:
+  - sudo ./bootstrap.sh
