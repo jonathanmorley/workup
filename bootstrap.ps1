@@ -6,6 +6,27 @@ If (!([Security.Principal.WindowsPrincipal] `
   Write-Error "You do not have Administrator rights to run this script!`nPlease re-run this script as an Administrator!"
 }
 
+Function Reset-Path {
+  $MachinePaths = [Environment]::GetEnvironmentVariable('Path', [System.EnvironmentVariableTarget]::Machine) -split ';'
+  $UserPaths = [Environment]::GetEnvironmentVariable('Path', [System.EnvironmentVariableTarget]::User) -split ';'
+  $Env:Path = ($MachinePaths + $UserPaths) -join ';'
+}
+
+Function Add-ToPath {
+  Param([string]$Path)
+
+  $Path = $Path.TrimEnd('/')
+
+  Reset-Path
+  $Paths = $Env:Path -split ';'
+  If (!($Paths -contains $Path) -and !($Paths -contains "${Path}/")) {
+    $MachinePaths = [Environment]::GetEnvironmentVariable('Path', [System.EnvironmentVariableTarget]::Machine) -split ';'
+    $MachinePaths += $Path
+    [Environment]::SetEnvironmentVariable('Path', ($MachinePaths -join ';'), [System.EnvironmentVariableTarget]::Machine)
+    Reset-Path
+  }
+}
+
 Write-Host 'Bootstrapping workup'
 
 $WORKUP_BRANCH = 'master' # Useful for testing
@@ -52,6 +73,8 @@ If (${install_chef}) {
   Write-Host -ForegroundColor 'Green' 'OK'
 }
 
+Add-ToPath 'C:\opscode\chefdk\bin'
+
 @(${WORKUP_DIR}, ${WORKUP_BINS}) |% {
   $leaf_name = Split-Path ${_} -Leaf
   If (Test-Path ${_} -PathType 'Container') {
@@ -75,15 +98,6 @@ Write-Host -NoNewLine 'Fetching new workup script... '
 $wc.DownloadFile("${WORKUP_URL}/workup.ps1", (Join-Path ${WORKUP_BINS} 'workup.ps1'))
 Write-Host -ForegroundColor 'Green' 'OK'
 
-$paths = ${env:Path} -split ';'
-If (${paths} -contains ${WORKUP_BINS}) {
-  Write-Host "workup is already in PATH"
-} Else {
-  Write-Host -NoNewLine 'Adding workup to PATH... '
-  $paths += ${WORKUP_BINS}
-  $env:Path = $paths -join ';'
-  [Environment]::SetEnvironmentVariable('Path', $env:Path, [System.EnvironmentVariableTarget]::Machine)
-  Write-Host -ForegroundColor 'Green' 'OK'
-}
+Add-ToPath ${WORKUP_BINS}
 
 Write-Host 'You are ready to run workup'

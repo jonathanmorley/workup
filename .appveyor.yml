@@ -13,8 +13,4 @@ test_script:
   - ps: Write-Host $env:PATH
   - ps: "[Environment]::GetEnvironmentVariable('Path', [System.EnvironmentVariableTarget]::Machine)"
   - ps: "[Environment]::GetEnvironmentVariable('Path', [System.EnvironmentVariableTarget]::User)"
-  - ps: ls c:\opscode
-  - ps: ls c:\opscode\chefdk
-  - ps: get-command chef
-  - ps: (get-command chef).definition
   - ps: chef exec inspec exec test/integration/**/*.rb
