@@ -1,0 +1,16 @@
+branches:
+  only:
+    - master
+    - appveyor
+
+init:
+  - ps: $PSVersionTable
+
+before_build:
+  - copy .kitchen.appveyor.yml .kitchen.local.yml
+
+build_script:
+  - ps: ./bootstrap.ps1
+
+test_script:
+  - chef exec inspec exec test/integration/**/*.rb
