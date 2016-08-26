@@ -95,6 +95,7 @@ Add-ToPath 'C:\opscode\chefdk\bin'
 
 Write-Host -NoNewLine 'Fetching new workup script... '
 $wc.DownloadFile("${WORKUP_URL}/workup.ps1", (Join-Path ${WORKUP_BINS} 'workup.ps1'))
+If(!(Test-Path "${WORKUP_URL}/workup.ps1")) { cmd /c mklink "${WORKUP_URL}/workup" "${WORKUP_URL}/workup.ps1" }
 
 Write-Host -ForegroundColor 'Green' 'OK'
 
