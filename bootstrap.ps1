@@ -14,7 +14,6 @@ Function Reset-Path {
 
 Function Add-ToPath {
   Param([string]$Path)
-
   $Path = $Path.TrimEnd('/')
 
   Reset-Path
@@ -96,8 +95,9 @@ Add-ToPath 'C:\opscode\chefdk\bin'
 
 Write-Host -NoNewLine 'Fetching new workup script... '
 $wc.DownloadFile("${WORKUP_URL}/workup.ps1", (Join-Path ${WORKUP_BINS} 'workup.ps1'))
+
 Write-Host -ForegroundColor 'Green' 'OK'
 
-Add-ToPath ${WORKUP_BINS}
+Add-ToPath $WORKUP_BINS
 
 Write-Host 'You are ready to run workup'
