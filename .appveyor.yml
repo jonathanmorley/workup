@@ -10,7 +10,4 @@ build_script:
   - ps: ./bootstrap.ps1
 
 test_script:
-  - ps: Write-Host $env:PATH
-  - ps: "[Environment]::GetEnvironmentVariable('Path', [System.EnvironmentVariableTarget]::Machine)"
-  - ps: "[Environment]::GetEnvironmentVariable('Path', [System.EnvironmentVariableTarget]::User)"
   - ps: chef exec inspec exec test/integration/**/*.rb
