@@ -3,6 +3,5 @@ os:
   - osx
 
 script:
-  - pwd
-  - ls
   - sudo ./bootstrap.sh
+  - chef exec inspec exec test/integration/**/*.rb
