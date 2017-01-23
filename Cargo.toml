@@ -1,0 +1,11 @@
+[package]
+name = "workup"
+version = "0.2.0"
+authors = ["Morley, Jonathan <JMorley@cvent.com>"]
+
+[dependencies]
+clap = "~2.20.0"
+
+[dependencies.hyper]
+version = "~0.9.13"
+default-features = false
