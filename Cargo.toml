@@ -4,8 +4,6 @@ version = "0.2.0"
 authors = ["Morley, Jonathan <JMorley@cvent.com>"]
 
 [dependencies]
-clap = "~2.20.0"
-
-[dependencies.hyper]
-version = "~0.9.13"
-default-features = false
+reqwest = "0.7.3"
+structopt = "0.1.0"
+structopt-derive = "0.1.0"

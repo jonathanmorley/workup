@@ -23,7 +23,9 @@ ohai.disabled_plugins = [:Passwd]
 ## Pull in Policyfile config
 local_config = File.join(chef_repo_path, '.chef', 'config.rb')
 eval(IO.read(local_config)) if File.exist? local_config
-    ".trim().to_owned()
+    "
+        .trim()
+        .to_owned()
 }
 
 pub fn policyfile() -> String {
@@ -37,5 +39,7 @@ run_list(
   # This stops the Policyfile from complaining
   'nop'
 )
-    ".trim().to_owned()
+    "
+        .trim()
+        .to_owned()
 }
